@@ -6,7 +6,6 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,10 +24,6 @@ fun MainRoute(
     viewModel: MainViewModel = hiltViewModel(),
 ) {
     val mainState by viewModel.mainUiState.collectAsStateWithLifecycle()
-
-    LaunchedEffect(Unit) {
-        viewModel.getProduct()
-    }
 
     MainScreen(
         mainState = mainState,
