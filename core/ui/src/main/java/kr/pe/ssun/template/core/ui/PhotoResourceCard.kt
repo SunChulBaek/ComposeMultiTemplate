@@ -5,14 +5,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
-import kr.pe.ssun.template.core.domain.model.DPhoto
+import kr.pe.ssun.template.core.model.Photo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PhotoResourcedCard(
-    mainResource: DPhoto,
+    mainResource: Photo,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {

@@ -3,11 +3,11 @@ package kr.pe.ssun.template.core.ui
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.Modifier
-import kr.pe.ssun.template.core.domain.model.DPhoto
+import kr.pe.ssun.template.core.model.Photo
 
 fun LazyListScope.photoItems(
-    items: List<DPhoto>,
-    onClickItem: (item: DPhoto) -> Unit,
+    items: List<Photo>,
+    onClickItem: (item: Photo) -> Unit,
     itemModifier: Modifier,
 ) = items(
     items = items,
