@@ -1,7 +1,7 @@
 package kr.pe.ssun.template.core.network
 
-import kr.pe.ssun.template.core.model.Photo
+import kr.pe.ssun.template.core.network.model.NetworkPhoto
 
 interface SsunNetworkDataSource {
-    suspend fun getPhotos(): List<Photo>
+    suspend fun getPhotos(): List<NetworkPhoto>
 }

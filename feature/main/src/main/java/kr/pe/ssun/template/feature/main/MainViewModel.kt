@@ -7,13 +7,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kr.pe.ssun.template.core.domain.GetPhotosParam
 import kr.pe.ssun.template.core.domain.GetPhotosUseCase
-import kr.pe.ssun.template.core.domain.model.DPhoto
+import kr.pe.ssun.template.core.model.Photo
 import javax.inject.Inject
 
 sealed interface MainUiState {
-    data class Success(val photos: List<DPhoto>): MainUiState
+    data class Success(val photos: List<Photo>): MainUiState
     object Loading: MainUiState
     object Error: MainUiState
 }
@@ -23,9 +22,9 @@ class MainViewModel @Inject constructor(
     getProductsUseCase: GetPhotosUseCase
 ) : ViewModel() {
 
-    val mainUiState = getProductsUseCase(GetPhotosParam()).map { result ->
-        result.getOrNull()?.let {
-            MainUiState.Success(it.photos)
+    val uiState = getProductsUseCase(null).map { result ->
+        result.getOrNull()?.let { photos ->
+            MainUiState.Success(photos)
         } ?: MainUiState.Error
     }.stateIn(
         scope = viewModelScope,
@@ -33,7 +32,7 @@ class MainViewModel @Inject constructor(
         initialValue = MainUiState.Loading
     )
 
-    fun onClick(photo: DPhoto) {
+    fun onClick(photo: Photo) {
         Log.d("MainViewModel", "[x1210x] onClick")
     }
 }

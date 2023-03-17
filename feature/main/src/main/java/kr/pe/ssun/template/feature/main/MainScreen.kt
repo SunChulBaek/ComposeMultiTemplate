@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kr.pe.ssun.template.core.domain.model.DPhoto
+import kr.pe.ssun.template.core.model.Photo
 import kr.pe.ssun.template.core.ui.photoItems
 import kr.pe.ssun.template.feature.main.MainUiState.*
 
@@ -23,7 +23,7 @@ fun MainRoute(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel = hiltViewModel(),
 ) {
-    val mainState by viewModel.mainUiState.collectAsStateWithLifecycle()
+    val mainState by viewModel.uiState.collectAsStateWithLifecycle()
 
     MainScreen(
         mainState = mainState,
@@ -35,7 +35,7 @@ fun MainRoute(
 @Composable
 fun MainScreen(
     mainState: MainUiState,
-    onClickItem: (DPhoto) -> Unit,
+    onClickItem: (Photo) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val state = rememberLazyListState()
@@ -59,7 +59,7 @@ fun MainScreen(
 
 private fun LazyListScope.MainBody(
     mainState: MainUiState,
-    onClickItem: (DPhoto) -> Unit
+    onClickItem: (Photo) -> Unit
 ) {
     photoItems(
         items = (mainState as Success).photos,

@@ -1,8 +1,8 @@
 package kr.pe.ssun.template.core.network.retrofit
 
 import kotlinx.serialization.json.Json
-import kr.pe.ssun.template.core.model.Photo
 import kr.pe.ssun.template.core.network.SsunNetworkDataSource
+import kr.pe.ssun.template.core.network.model.NetworkPhoto
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 private interface RetrofitSsunNetworkApi {
 
     @GET("photos")
-    suspend fun getPhotos(): List<Photo>
+    suspend fun getPhotos(): List<NetworkPhoto>
 }
 
 @Singleton
@@ -38,5 +38,5 @@ class RetrofitSsunNetwork @Inject constructor(
         .build()
         .create(RetrofitSsunNetworkApi::class.java)
 
-    override suspend fun getPhotos(): List<Photo> = networkApi.getPhotos()
+    override suspend fun getPhotos(): List<NetworkPhoto> = networkApi.getPhotos()
 }

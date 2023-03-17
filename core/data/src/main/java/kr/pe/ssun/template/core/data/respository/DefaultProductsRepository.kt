@@ -4,6 +4,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kr.pe.ssun.template.core.model.Photo
 import kr.pe.ssun.template.core.network.SsunNetworkDataSource
+import kr.pe.ssun.template.core.network.model.NetworkPhoto
+import kr.pe.ssun.template.core.network.model.asExternalModel
 import javax.inject.Inject
 
 class DefaultProductsRepository @Inject constructor(
@@ -11,6 +13,6 @@ class DefaultProductsRepository @Inject constructor(
 ) : PhotosRepository {
 
     override fun getPhotos(): Flow<List<Photo>> = flow {
-        emit(network.getPhotos())
+        emit(network.getPhotos().map(NetworkPhoto::asExternalModel))
     }
 }
