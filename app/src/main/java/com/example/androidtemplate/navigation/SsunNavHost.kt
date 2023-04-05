@@ -1,5 +1,6 @@
 package com.example.androidtemplate.navigation
 
+import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -8,25 +9,28 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import kr.pe.ssun.template.feature.main.navigation.mainNavigationRoute
-import kr.pe.ssun.template.feature.main.navigation.mainScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SsunNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startDestination: String = mainNavigationRoute,
+    showToast: (String) -> Toast,
+    onBack: () -> Unit,
+    startDestination: String = homeNavigationRoute,
 ) {
     AnimatedNavHost(
         modifier = modifier,
         navController = navController,
         startDestination = startDestination,
     ) {
-        mainScreen(
+        homeScreen(
             enterTransition = defaultEnterTransition(),
             exitTransition = defaultExitTransition(),
             popEnterTransition = defaultPopEnterTransition(),
             popExitTransition = defaultPopExitTransition(),
+            showToast = showToast,
+            onBack = onBack,
         )
     }
 }

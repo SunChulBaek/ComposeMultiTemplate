@@ -1,6 +1,7 @@
 package com.example.androidtemplate
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.androidtemplate.ui.SsunApp
@@ -13,7 +14,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SsunTheme {
-                SsunApp()
+                SsunApp(
+                    showToast = { text ->
+                        Toast.makeText(this, text, Toast.LENGTH_SHORT).apply {
+                            this.show()
+                        }
+                    },
+                    onBack = { this.finishAffinity() }
+                )
             }
         }
     }

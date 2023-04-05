@@ -1,5 +1,6 @@
 package com.example.androidtemplate.ui
 
+import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,11 +13,12 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
-fun SsunApp() {
-    Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
-        SsunNavHost(
-            modifier = Modifier.fillMaxSize().padding(padding),
-            navController = rememberAnimatedNavController(),
-        )
-    }
-}
+fun SsunApp(
+    showToast: (String) -> Toast,
+    onBack: () -> Unit,
+) = SsunNavHost(
+    modifier = Modifier.fillMaxSize(),
+    navController = rememberAnimatedNavController(),
+    showToast = showToast,
+    onBack = onBack,
+)

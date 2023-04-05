@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CM템플릿</string>
+    <string name="tab1">탭1</string>
+    <string name="tab2">탭2</string>
+    <string name="tab3">탭3</string>
+    <string name="tab4">탭4</string>
 </resources>
