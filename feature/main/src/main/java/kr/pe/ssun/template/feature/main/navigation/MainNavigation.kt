@@ -21,6 +21,7 @@ fun NavGraphBuilder.mainScreen(
     exitTransition: ExitTransition = ExitTransition.None,
     popEnterTransition: EnterTransition = EnterTransition.None,
     popExitTransition: ExitTransition = ExitTransition.None,
+    navigate: (String, Any?) -> Unit
 ) {
     composable(
         route = mainNavigationRoute,
@@ -29,6 +30,6 @@ fun NavGraphBuilder.mainScreen(
         popEnterTransition = { popEnterTransition },
         popExitTransition = { popExitTransition }
     ) {
-        MainRoute()
+        MainRoute(navigate = navigate)
     }
 }

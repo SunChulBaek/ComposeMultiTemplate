@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
-import kr.pe.ssun.template.feature.main.navigation.mainNavigationRoute
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -24,11 +23,23 @@ fun SsunNavHost(
         navController = navController,
         startDestination = startDestination,
     ) {
+        // 홈
         homeScreen(
             enterTransition = defaultEnterTransition(),
             exitTransition = defaultExitTransition(),
             popEnterTransition = defaultPopEnterTransition(),
             popExitTransition = defaultPopExitTransition(),
+            navigate = { dest, params -> navigate(navController, dest, params) },
+            showToast = showToast,
+            onBack = onBack,
+        )
+        // 포토
+        photoDetailScreen(
+            enterTransition = defaultEnterTransition(),
+            exitTransition = defaultExitTransition(),
+            popEnterTransition = defaultPopEnterTransition(),
+            popExitTransition = defaultPopExitTransition(),
+            navigate = { dest, params -> navigate(navController, dest, params) },
             showToast = showToast,
             onBack = onBack,
         )
@@ -66,3 +77,16 @@ fun defaultPopExitTransition(): ExitTransition = slideOutHorizontally(
         easing = FastOutSlowInEasing
     )
 )
+
+fun navigate(
+    navController: NavHostController,
+    dest: String,
+    params: Any? = null,
+) {
+    when (dest) {
+        photoDetailNavigationRoute -> (params as? Pair<*, *>)?.let { (title, url) ->
+            navController.navigateToPhotoDetail(title as String, url as String)
+        }
+        else -> TODO()
+    }
+}

@@ -31,10 +31,11 @@ import kr.pe.ssun.template.feature.main.MainRoute
 
 @Composable
 fun HomeRoute(
+    navigate: (String, Any?) -> Unit,
     showToast: (String) -> Toast,
     onBack: () -> Unit,
 ) {
-    HomeScreen(modifier = Modifier.fillMaxSize(), showToast, onBack)
+    HomeScreen(modifier = Modifier.fillMaxSize(), navigate, showToast, onBack)
 }
 
 sealed class Screen(
@@ -42,10 +43,10 @@ sealed class Screen(
     @DrawableRes val iconSelected: Int,
     val route: String,
     @StringRes val resourceId: Int,
-    val content: (@Composable (String, (String) -> Unit, (String) -> Unit) -> Unit)
+    val content: (@Composable (String, (String) -> Unit, (String, Any?) -> Unit) -> Unit)
 ) {
     object Tab1 : Screen(R.drawable.ic_place_outline, R.drawable.ic_place, "tab1", R.string.tab1, { route, showSnackbar, navigate ->
-        MainRoute()
+        MainRoute(navigate = navigate)
     })
     object Tab2 : Screen(R.drawable.ic_chat_outline, R.drawable.ic_chat, "tab2", R.string.tab2, { route, showSnackbar, navigate ->
         Box(
@@ -79,6 +80,7 @@ var toast: Toast? = null
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    navigate: (String, Any?) -> Unit,
     showToast: (String) -> Toast,
     onBack: () -> Unit
 ) {
@@ -99,7 +101,7 @@ fun HomeScreen(
                 navController = navController,
                 items = ITEMS,
                 startDestination = START_DESTINATION,
-                navigate = { /* TODO */ },
+                navigate = navigate,
                 showSnackbar = { text ->
                     // showSnackbar
                     scope.launch {
@@ -188,7 +190,7 @@ fun HomeNavHost(
     navController: NavHostController,
     items: List<Screen>,
     startDestination: Screen,
-    navigate: (String) -> Unit,
+    navigate: (String, Any?) -> Unit,
     showSnackbar: (String) -> Unit
 ) {
     AnimatedNavHost(
@@ -214,7 +216,7 @@ fun HomeNavHost(
                     // showSnackbar
                     { text -> showSnackbar(text) },
                     // 상세화면 네비게이션
-                    { route -> navigate.invoke(route) }
+                    { route, params -> navigate(route, params) }
                 )
             }
         }

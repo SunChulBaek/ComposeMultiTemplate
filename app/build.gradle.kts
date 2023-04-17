@@ -45,4 +45,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.window.manager)
     implementation(libs.androidx.profileinstaller)
+
+    // Coil
+    implementation(libs.coil.kt)
+    implementation(libs.coil.kt.compose)
 }

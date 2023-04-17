@@ -16,6 +16,7 @@ fun NavGraphBuilder.homeScreen(
     exitTransition: ExitTransition = ExitTransition.None,
     popEnterTransition: EnterTransition = EnterTransition.None,
     popExitTransition: ExitTransition = ExitTransition.None,
+    navigate: (String, Any?) -> Unit,
     showToast: (String) -> Toast,
     onBack: () -> Unit,
 ) {
@@ -26,6 +27,6 @@ fun NavGraphBuilder.homeScreen(
         popEnterTransition = { popEnterTransition },
         popExitTransition = { popExitTransition }
     ) {
-        HomeRoute(showToast, onBack)
+        HomeRoute(navigate, showToast, onBack)
     }
 }

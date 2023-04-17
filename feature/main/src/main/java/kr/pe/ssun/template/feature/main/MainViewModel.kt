@@ -31,8 +31,4 @@ class MainViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = MainUiState.Loading
     )
-
-    fun onClick(photo: Photo) {
-        Log.d("MainViewModel", "[x1210x] onClick")
-    }
 }

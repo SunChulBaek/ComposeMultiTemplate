@@ -20,12 +20,13 @@ import kr.pe.ssun.template.feature.main.MainUiState.*
 fun MainRoute(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel = hiltViewModel(),
+    navigate: (String, Any?) -> Unit,
 ) {
     val mainState by viewModel.uiState.collectAsStateWithLifecycle()
 
     MainScreen(
         mainState = mainState,
-        onClickItem = viewModel::onClick,
+        onClickItem = { item -> navigate("photo_detail", Pair(item.title, item.url)) },
         modifier = modifier
     )
 }
