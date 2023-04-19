@@ -14,6 +14,13 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             val propFile = file(rootProject.file("build.properties"))
             val properties = Properties().apply { load(FileInputStream(propFile))}
 
+            val keystorePropFile = rootProject.file("keystore.properties")
+            val keystoreProperties = Properties().apply {
+                if (keystorePropFile.exists()) {
+                    load(FileInputStream(keystorePropFile))
+                }
+            }
+
             with(pluginManager) {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
@@ -31,16 +38,16 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     getByName("debug") {
                         keyAlias = "androiddebugkey"
                         keyPassword = "android"
-                        storeFile = file(rootProject.file("debug.keystore"))
+                        storeFile = file(rootProject.file("keystore/debug.keystore"))
                         storePassword = "android"
                     }
                     create("release") {
-                        val path = properties.getProperty("storeFile")
+                        val path = properties.getProperty("releaseKeyStore")
                         if (path != null) {
-                            keyAlias = properties.getProperty("keyAlias")
-                            keyPassword = properties.getProperty("keyPassword")
-                            storeFile = file(rootProject.file(path))
-                            storePassword = properties.getProperty("storePassword")
+                            keyAlias = properties.getProperty("releaseKeyAlias")
+                            keyPassword = properties.getProperty("releaseKeyPassword")
+                            storeFile = rootProject.file("$path/release.keystore")
+                            storePassword = properties.getProperty("releaseStorePassword")
                         }
                     }
                 }
