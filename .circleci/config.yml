@@ -1,6 +1,92 @@
 version: 2.1
 orbs:
   slack: circleci/slack@4.10.1
+commands:
+  install_android_gradle_dependencies:
+    steps:
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+            - ~/.gradle/wrapper
+          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}
+  check_dependency_updates:
+    parameters:
+      revision:
+        default: release
+        type: string
+      output:
+        default: plain
+        type: string
+    steps:
+      - run:
+          name: Check Dependency Updates
+          command: ./gradlew dependencyUpdates -Drevision=<<parameters.revision>> -DoutputFormatter=<<parameters.output>>
+  set_build_properties:
+    parameters:
+      build-number:
+        default: $CIRCLE_BUILD_NUM
+        type: string
+      build-version:
+        default: 1.0.0
+        type: string
+      release-key-alias:
+        default: $RELEASE_KEY_ALIAS
+        type: string
+      release-key-password:
+        default: $RELEASE_KEY_PASSWORD
+        type: string
+      release-key-store:
+        default: keystore
+        type: string
+      release-store-password:
+        default: $RELEASE_STORE_PASSWORD
+        type: string
+    steps:
+      - run:
+          name: Set Build Properties
+          command: sudo chmod +x ./setBuildProperties; ./setBuildProperties <<parameters.build-number>> "<<parameters.build-version>>" <<parameters.release-key-alias>> <<parameters.release-key-password>> <<parameters.release-key-store>> <<parameters.release-store-password>>
+  build_and_archive: # 여기는 좀 더 개선이 필요할듯
+    parameters:
+      command:
+        default: assembleRelease
+        type: string
+      path:
+        default: app/build/outputs/apk/release
+        type: string
+      source:
+        default: app-release.apk
+        type: string
+      target:
+        type: string
+      destination:
+        default: apk
+        type: string
+    steps:
+      - run:
+          name: Check Java Version
+          command: java --version
+      - run:
+          name: Build Binaries
+          command: ./gradlew <<parameters.command>>
+      - run:
+          name: Change File Name
+          command: mv <<parameters.path>>/<<parameters.source>> <<parameters.path>>/<<parameters.target>>
+      - store_artifacts:
+          path: <<parameters.path>>
+          destination: <<parameters.destination>>
+  slack_notify:
+    steps:
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: basic_success_1
 jobs:
   build:
     working_directory: ~/ComposeMultiTemplate
@@ -11,36 +97,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Check Java Version
-          command: java --version
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}
-      - run:
           name: Chmod permissions # if permission for Gradlew Dependencies fail, use this.
           command: sudo chmod +x ./gradlew
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-      - save_cache:
-          paths:
-            - ~/.gradle/caches
-            - ~/.gradle/wrapper
-          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}
-      - run:
-          name: Check Dependency Updates
-          command: ./gradlew dependencyUpdates -Drevision=release -DoutputFormatter=plain
-      - run:
-          name: Set Build Properties
-          command: sudo chmod +x ./setBuildProperties; ./setBuildProperties $CIRCLE_BUILD_NUM "1.0.0" $RELEASE_KEY_ALIAS $RELEASE_KEY_PASSWORD "keystore" $RELEASE_STORE_PASSWORD
-      - run:
-          name: Build Binaries
-          command: ./gradlew assembleRelease;mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/CMTemplate-release-${CIRCLE_BUILD_NUM}.apk
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
-      - slack/notify:
-          event: pass
-          template: basic_success_1
-      - store_artifacts:
-          path: app/build/outputs/apk/release
-          destination: apk
+      - install_android_gradle_dependencies
+      - check_dependency_updates
+      - set_build_properties:
+      - build_and_archive:
+          target: CMTemplate-v${CIRCLE_BUILD_NUM}.apk
+      - slack_notify
