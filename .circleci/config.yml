@@ -91,7 +91,7 @@ jobs:
   build:
     working_directory: ~/ComposeMultiTemplate
     docker:
-      - image: cimg/android:2023.04
+      - image: cimg/android:2023.04.1 # https://circleci.com/developer/images/image/cimg/android#image-tags
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
