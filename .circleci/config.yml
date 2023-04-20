@@ -101,7 +101,7 @@ jobs:
           command: sudo chmod +x ./gradlew
       - install_android_gradle_dependencies
       - check_dependency_updates
-      - set_build_properties:
+      - set_build_properties
       - build_and_archive:
           target: CMTemplate-v${CIRCLE_BUILD_NUM}.apk
       - slack_notify
