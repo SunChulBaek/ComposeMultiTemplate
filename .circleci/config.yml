@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  slack: circleci/slack@4.10.1
+  slack: circleci/slack@4.12.1 # https://circleci.com/developer/orbs/orb/circleci/slack
 commands:
   chmod_permission:
     steps:
