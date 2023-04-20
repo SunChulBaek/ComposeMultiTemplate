@@ -1,19 +1,15 @@
 version: 2.1
 orbs:
+  android: circleci/android@2.2.0 # https://circleci.com/developer/orbs/orb/circleci/android for latest version
   slack: circleci/slack@4.10.1
 commands:
   install_android_gradle_dependencies:
     steps:
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}
+      - android/restore-gradle-cache
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
-      - save_cache:
-          paths:
-            - ~/.gradle/caches
-            - ~/.gradle/wrapper
-          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}
+      - android/save-gradle-cache
   check_dependency_updates:
     parameters:
       revision:
@@ -34,22 +30,10 @@ commands:
       build-version:
         default: 1.0.0
         type: string
-      release-key-alias:
-        default: $RELEASE_KEY_ALIAS
-        type: string
-      release-key-password:
-        default: $RELEASE_KEY_PASSWORD
-        type: string
-      release-key-store:
-        default: keystore
-        type: string
-      release-store-password:
-        default: $RELEASE_STORE_PASSWORD
-        type: string
     steps:
       - run:
           name: Set Build Properties
-          command: sudo chmod +x ./setBuildProperties; ./setBuildProperties <<parameters.build-number>> "<<parameters.build-version>>" <<parameters.release-key-alias>> <<parameters.release-key-password>> <<parameters.release-key-store>> <<parameters.release-store-password>>
+          command: sudo chmod +x ./setBuildProperties; ./setBuildProperties <<parameters.build-number>> "<<parameters.build-version>>"
   build_and_archive: # 여기는 좀 더 개선이 필요할듯
     parameters:
       command:
@@ -89,16 +73,25 @@ commands:
           template: basic_success_1
 jobs:
   build:
-    docker:
-      - image: cimg/android:2023.04.1 # https://circleci.com/developer/images/image/cimg/android#image-tags
+    executor:
+      name: android/android-docker
+      tag: 2023.04.1 # https://circleci.com/developer/images/image/cimg/android#image-tags
     steps:
       - checkout
+      - android/change-java-version:
+          java-version: 17
       - run:
           name: Chmod permissions # if permission for Gradlew Dependencies fail, use this.
           command: sudo chmod +x ./gradlew
+      - android/create-keystore-properties:
+          release-keystore: keystore
       - install_android_gradle_dependencies
       - check_dependency_updates
       - set_build_properties
       - build_and_archive:
           target: CMTemplate-v${CIRCLE_BUILD_NUM}.apk
       - slack_notify
+workflows:
+  build:
+    jobs:
+      - build
