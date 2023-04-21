@@ -35,18 +35,12 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                         storePassword = "android"
                     }
                     create("release") {
-                        val keystorePropFile = rootProject.file("keystore.properties")
-                        val keystoreProperties = Properties().apply {
-                            if (keystorePropFile.exists()) {
-                                load(FileInputStream(keystorePropFile))
-                            }
-                        }
-                        val path = keystoreProperties.getProperty("releaseKeyStore")
+                        val path = properties.getProperty("releaseKeyStore")
                         if (path != null) {
-                            keyAlias = keystoreProperties.getProperty("releaseKeyAlias")
-                            keyPassword = keystoreProperties.getProperty("releaseKeyPassword")
+                            keyAlias = properties.getProperty("releaseKeyAlias")
+                            keyPassword = properties.getProperty("releaseKeyPassword")
                             storeFile = rootProject.file("$path/release.keystore")
-                            storePassword = keystoreProperties.getProperty("releaseStorePassword")
+                            storePassword = properties.getProperty("releaseStorePassword")
                         }
                     }
                 }
