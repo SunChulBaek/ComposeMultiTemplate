@@ -38,22 +38,10 @@ commands:
       build-version:
         default: 1.0.0
         type: string
-      release-key-alias:
-        default: $RELEASE_KEY_ALIAS
-        type: string
-      release-key-password:
-        default: $RELEASE_KEY_PASSWORD
-        type: string
-      release-key-store:
-        default: keystore
-        type: string
-      release-store-password:
-        default: $RELEASE_STORE_PASSWORD
-        type: string
     steps:
       - run:
           name: Set Build Properties
-          command: sudo chmod +x ./setBuildProperties; ./setBuildProperties <<parameters.build-number>> "<<parameters.build-version>>" <<parameters.release-key-alias>> <<parameters.release-key-password>> <<parameters.release-key-store>> <<parameters.release-store-password>>
+          command: sudo chmod +x ./setBuildProperties; ./setBuildProperties <<parameters.build-number>> "<<parameters.build-version>>"
   build_and_archive: # TODO : 여기는 좀 더 개선이 필요할듯
     parameters:
       command:
@@ -93,14 +81,21 @@ commands:
           template: basic_success_1
 jobs:
   build:
-    docker:
-      - image: cimg/android:2023.04.1 # https://circleci.com/developer/images/image/cimg/android#image-tags
+    executor:
+      name: android/android-docker
+      tag: 2023.04.1 # https://circleci.com/developer/images/image/cimg/android#image-tags
     steps:
       - checkout
       - chmod_permission
+      - android/create-keystore-properties:
+          release-keystore: keystore
       - install_android_gradle_dependencies
       - check_dependency_updates
       - set_build_properties
       - build_and_archive:
           target: CMTemplate-v${CIRCLE_BUILD_NUM}.apk
       - slack_notify
+#workflows:
+#  build:
+#    jobs:
+#      - build
