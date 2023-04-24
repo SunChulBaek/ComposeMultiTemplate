@@ -12,10 +12,11 @@ fun LazyListScope.photoItems(
 ) = items(
     items = items,
     itemContent = { item ->
-        PhotoResourcedCard(
-            mainResource = item,
-            onClick = { onClickItem(item) },
-            modifier = itemModifier
-        )
+        PhotoItem(
+            modifier = itemModifier,
+            item = item,
+        ) {
+            onClickItem(item)
+        }
     }
 )

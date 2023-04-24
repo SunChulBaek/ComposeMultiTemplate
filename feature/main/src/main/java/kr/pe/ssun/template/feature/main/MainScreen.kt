@@ -4,15 +4,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kr.pe.ssun.template.core.model.Photo
+import kr.pe.ssun.template.core.ui.ErrorScreen
+import kr.pe.ssun.template.core.ui.LoadingScreen
 import kr.pe.ssun.template.core.ui.photoItems
 import kr.pe.ssun.template.feature.main.MainUiState.*
 
@@ -37,14 +37,16 @@ fun MainScreen(
     onClickItem: (Photo) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = rememberLazyListState()
-    Box(modifier = modifier.fillMaxSize().padding(horizontal = 16.dp)) {
+    val listState = rememberLazyListState()
+    Box(modifier = modifier
+        .fillMaxSize()
+        .padding(horizontal = 16.dp)) {
         when (mainState) {
-            Loading -> { CircularProgressIndicator(modifier = Modifier.align(Alignment.Center)) }
-            Error -> {}
+            Loading -> LoadingScreen()
+            Error -> ErrorScreen()
             is Success -> {
                 LazyColumn(
-                    state = state,
+                    state = listState,
                 ) {
                     MainBody(
                         mainState = mainState,

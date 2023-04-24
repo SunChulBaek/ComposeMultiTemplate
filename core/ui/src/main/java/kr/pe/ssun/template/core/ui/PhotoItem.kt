@@ -10,10 +10,10 @@ import kr.pe.ssun.template.core.model.Photo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PhotoResourcedCard(
-    mainResource: Photo,
+fun PhotoItem(
+    modifier: Modifier = Modifier,
+    item: Photo,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
     Card(
         onClick = onClick,
@@ -21,12 +21,10 @@ fun PhotoResourcedCard(
             .fillMaxWidth()
             .height(80.dp)
     ) {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .height(80.dp)) {
+        Row(modifier = Modifier.fillMaxWidth()) {
             SubcomposeAsyncImage(
                 modifier = Modifier.size(80.dp),
-                model = mainResource.thumbnailUrl,
+                model = item.thumbnailUrl,
                 loading = {
                       CircularProgressIndicator(
                           modifier = Modifier.padding(20.dp),
@@ -39,7 +37,9 @@ fun PhotoResourcedCard(
                 modifier = Modifier
                     .padding(horizontal = 8.dp, vertical = 8.dp)
                     .fillMaxSize(),
-                text = mainResource.title
+                text = item.title,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }
