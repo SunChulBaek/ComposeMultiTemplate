@@ -89,8 +89,8 @@ jobs:
       - android/change-java-version:
           java-version: 17
       - chmod_permission
-      - android/create-keystore-properties:
-          release-keystore: keystore
+      - android/decode-keystore
+      - android/create-keystore-properties
       - install_android_gradle_dependencies
       - check_dependency_updates
       - set_build_properties

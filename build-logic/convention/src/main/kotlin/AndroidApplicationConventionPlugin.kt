@@ -28,12 +28,6 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 defaultConfig.versionName = properties.getProperty("versionName")
 
                 signingConfigs {
-                    getByName("debug") {
-                        keyAlias = "androiddebugkey"
-                        keyPassword = "android"
-                        storeFile = file(rootProject.file("keystore/debug.keystore"))
-                        storePassword = "android"
-                    }
                     create("release") {
                         val keystorePropFile = rootProject.file("keystore.properties")
                         val keystoreProperties = Properties().apply {
@@ -45,7 +39,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                         if (path != null) {
                             keyAlias = keystoreProperties.getProperty("releaseKeyAlias")
                             keyPassword = keystoreProperties.getProperty("releaseKeyPassword")
-                            storeFile = rootProject.file("$path/release.keystore")
+                            storeFile = rootProject.file(keystoreProperties.getProperty("releaseKeyStore"))
                             storePassword = keystoreProperties.getProperty("releaseStorePassword")
                         }
                     }
@@ -53,7 +47,6 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 
                 buildTypes {
                     getByName("debug") {
-                        signingConfig = signingConfigs.getByName("debug")
                         isDebuggable = true
                     }
                     getByName("release") {
