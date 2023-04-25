@@ -27,6 +27,8 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import kotlinx.coroutines.launch
+import kr.pe.ssun.template.core.event.NavItemReselectEvent
+import kr.pe.ssun.template.core.util.EventBus
 import kr.pe.ssun.template.feature.main.MainRoute
 
 @Composable
@@ -46,7 +48,7 @@ sealed class Screen(
     val content: (@Composable (String, (String) -> Unit, (String, Any?) -> Unit) -> Unit)
 ) {
     object Tab1 : Screen(R.drawable.ic_place_outline, R.drawable.ic_place, "tab1", R.string.tab1, { route, showSnackbar, navigate ->
-        MainRoute(navigate = navigate)
+        MainRoute(route= route, navigate = navigate)
     })
     object Tab2 : Screen(R.drawable.ic_chat_outline, R.drawable.ic_chat, "tab2", R.string.tab2, { route, showSnackbar, navigate ->
         Box(
@@ -94,7 +96,13 @@ fun HomeScreen(
     Scaffold(
         modifier = modifier,
         topBar = { MyTopAppBar() },
-        bottomBar = { MyBottomNavigation(navController = navController, items = ITEMS, onReselect = {})},
+        bottomBar = {
+            MyBottomNavigation(navController, ITEMS) { route ->
+                scope.launch {
+                    EventBus.publish(NavItemReselectEvent(route))
+                }
+            }
+        },
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             HomeNavHost(

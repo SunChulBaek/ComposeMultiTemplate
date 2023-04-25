@@ -11,7 +11,7 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun SsunNavHost(
+fun MainNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     showToast: (String) -> Toast,
