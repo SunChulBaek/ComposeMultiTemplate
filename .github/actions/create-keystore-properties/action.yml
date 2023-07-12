@@ -11,16 +11,13 @@ inputs:
     default: "keystore.properties"
   release-key-alias:
     description: "releaseKeyAlias"
-    required: false
-    default: ${{ secrets.RELEASE_KEY_ALIAS }}
+    required: true
   release-key-password:
     description: "releaseKeyPassword"
-    required: false
-    default: ${{ secrets.RELEASE_KEY_PASSWORD }}
+    required: true
   release-store-password:
     description: "releaseStorePassword"
-    required: false
-    default: ${{ secrets.RELEASE_STORE_PASSWORD }}
+    required: true
 runs:
   using: "composite"
   steps:

@@ -3,8 +3,7 @@ description: "Decode Keystore"
 inputs:
   base64-keystore:
     description: "base64 keystore"
-    required: false
-    default: ${{ secrets.BASE64_KEYSTORE }}
+    required: true
   keystore-location:
     description: "keystore location"
     required: false

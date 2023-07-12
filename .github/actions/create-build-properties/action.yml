@@ -7,8 +7,7 @@ inputs:
     default: "build.properties"
   application-id:
     description: "application id"
-    required: false
-    default: ${{ secrets.APP_ID }}
+    required: true
   compile-sdk:
     description: "compile sdk"
     required: true
