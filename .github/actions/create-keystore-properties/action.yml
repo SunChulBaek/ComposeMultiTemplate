@@ -21,11 +21,9 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: echo "releaseKeyAlias=${{ inputs.release-key-alias }}" > ${{ inputs.keystore-properties }}
-      shell: bash
-    - run: echo "releaseKeyPassword=${{ inputs.release-key-password }}" >> ${{ inputs.keystore-properties }}
-      shell: bash
-    - run: echo "releaseKeyStore=${{ inputs.keystore }}" >> ${{ inputs.keystore-properties }}
-      shell: bash
-    - run: echo "releaseStorePassword=${{ inputs.release-store-password }}" >> ${{ inputs.keystore-properties }}
+    - run: |
+        echo "releaseKeyAlias=${{ inputs.release-key-alias }}" > ${{ inputs.keystore-properties }}
+        echo "releaseKeyPassword=${{ inputs.release-key-password }}" >> ${{ inputs.keystore-properties }}
+        echo "releaseKeyStore=${{ inputs.keystore }}" >> ${{ inputs.keystore-properties }}
+        echo "releaseStorePassword=${{ inputs.release-store-password }}" >> ${{ inputs.keystore-properties }}
       shell: bash

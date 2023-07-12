@@ -56,13 +56,14 @@ jobs:
       - name: Check Dependency Updates
         run: ./gradlew dependencyUpdates -Drevision=release -DoutputFormatter=plain
       - name: Set Build Properties
-        run: |
-          echo applicationId=${{ secrets.APP_ID }} > $BUILD_PROPERTIES
-          echo compileSdk=${{ env.COMPILE_SDK }} >> $BUILD_PROPERTIES
-          echo minSdk=${{ env.MIN_SDK }} >> $BUILD_PROPERTIES
-          echo targetSdk=${{ env.TARGET_SDK }} >> $BUILD_PROPERTIES
-          echo versionCode=${{ env.VERSION_CODE }} >> $BUILD_PROPERTIES
-          echo versionName=${{ env.VERSION_NAME }} >> $BUILD_PROPERTIES
+        uses: ./.github/actions/create-build-properties
+        with:
+          application-id: ${{ secrets.APP_ID }}
+          compile-sdk: ${{ env.COMPILE_SDK }}
+          min-sdk: ${{ env.MIN_SDK }}
+          target-sdk: ${{ env.TARGET_SDK }}
+          version-code: ${{ env.VERSION_CODE }}
+          version-name: ${{ env.VERSION_NAME }}
       - name: Build Binary
         run: ./gradlew assembleRelease
       - name: Send Slack Message
