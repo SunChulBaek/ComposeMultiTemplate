@@ -46,7 +46,7 @@ jobs:
       - name: Decode Keystore
         run: echo ${{ secrets.BASE64_KEYSTORE }} | base64 -d > ${{ env.KEYSTORE }}
       - name: Create Keystore Properties
-        uses: .github/actions/create-keystore-properties
+        uses: ./.github/actions/create-keystore-properties
         with:
           release-key-alias: ${{ secrets.RELEASE_KEY_ALIAS }}
           release-key-password: ${{ secrets.RELEASE_KEY_PASSWORD }}
