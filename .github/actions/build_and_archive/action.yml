@@ -20,8 +20,7 @@ inputs:
     default: "app/build/outputs/apk/release"
   apk-name:
     description: "apk name"
-    required: false
-    default: "${{ vars.APP_NAME }}-${{ inputs.version-number }}.apk"
+    required: true
 runs:
   using: "composite"
   steps:
