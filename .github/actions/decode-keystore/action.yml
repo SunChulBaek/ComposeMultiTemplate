@@ -1,0 +1,17 @@
+name: "Decode Keystore"
+description: "Decode Keystore"
+inputs:
+  base64-keystore:
+    description: "base64 keystore"
+    required: false
+    default: ${{ secrets.BASE64_KEYSTORE }}
+  keystore-location:
+    description: "keystore location"
+    required: false
+    default: "keystore"
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        echo ${{ inputs.base64-keystore }} | base64 -d > ${{ inputs.keystore-location }}
+      shell: bash
