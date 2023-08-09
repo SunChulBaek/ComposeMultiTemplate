@@ -7,7 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import kr.pe.ssun.template.core.network.SsunNetworkDataSource
-import kr.pe.ssun.template.core.network.retrofit.RetrofitSsunNetwork
+import kr.pe.ssun.template.core.network.ktor.KtorSsunNetwork
 import javax.inject.Singleton
 
 @Module
@@ -26,5 +26,5 @@ object NetworkModule {
 interface SsunNetworkModule {
 
     @Binds
-    fun RetrofitSsunNetwork.binds(): SsunNetworkDataSource
+    fun KtorSsunNetwork.binds(): SsunNetworkDataSource
 }
