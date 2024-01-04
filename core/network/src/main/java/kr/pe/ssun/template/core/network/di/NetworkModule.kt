@@ -26,5 +26,7 @@ object NetworkModule {
 interface SsunNetworkModule {
 
     @Binds
-    fun KtorSsunNetwork.binds(): SsunNetworkDataSource
+    fun bindKtorSsunNetwork(
+        network: KtorSsunNetwork
+    ): SsunNetworkDataSource
 }
