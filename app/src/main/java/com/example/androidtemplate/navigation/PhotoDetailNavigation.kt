@@ -4,12 +4,11 @@ import android.util.Base64
 import android.widget.Toast
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
+import androidx.navigation.compose.composable
 import com.example.androidtemplate.ui.PhotoDetailRoute
-import com.google.accompanist.navigation.animation.composable
 
 const val photoDetailNavigationRoute = "photo_detail"
 
@@ -21,7 +20,6 @@ fun NavController.navigateToPhotoDetail(title: String, url: String, navOptions: 
     this.navigate("$photoDetailNavigationRoute/$title/$encoded", navOptions)
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.photoDetailScreen(
     enterTransition: EnterTransition = EnterTransition.None,
     exitTransition: ExitTransition = ExitTransition.None,

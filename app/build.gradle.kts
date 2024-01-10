@@ -30,7 +30,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.testManifest)
 
     implementation(libs.accompanist.systemuicontroller)
-    implementation(libs.accompanist.navigation.animation)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)

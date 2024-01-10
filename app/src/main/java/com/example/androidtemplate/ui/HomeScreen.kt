@@ -21,11 +21,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.androidtemplate.R
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import kotlinx.coroutines.launch
 import kr.pe.ssun.template.core.event.NavItemReselectEvent
 import kr.pe.ssun.template.core.util.EventBus
@@ -86,7 +86,7 @@ fun HomeScreen(
     showToast: (String) -> Toast,
     onBack: () -> Unit
 ) {
-    val navController = rememberAnimatedNavController()
+    val navController = rememberNavController()
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -192,7 +192,6 @@ fun MyBottomNavigation(navController: NavHostController, items: List<Screen>, on
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HomeNavHost(
     navController: NavHostController,
@@ -201,7 +200,7 @@ fun HomeNavHost(
     navigate: (String, Any?) -> Unit,
     showSnackbar: (String) -> Unit
 ) {
-    AnimatedNavHost(
+    NavHost(
         navController = navController,
         startDestination = startDestination.route
     ) {

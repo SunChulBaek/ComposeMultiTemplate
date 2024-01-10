@@ -7,9 +7,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.google.accompanist.navigation.animation.AnimatedNavHost
+import androidx.navigation.compose.NavHost
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainNavHost(
     modifier: Modifier = Modifier,
@@ -18,7 +17,7 @@ fun MainNavHost(
     onBack: () -> Unit,
     startDestination: String = homeNavigationRoute,
 ) {
-    AnimatedNavHost(
+    NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = startDestination,
