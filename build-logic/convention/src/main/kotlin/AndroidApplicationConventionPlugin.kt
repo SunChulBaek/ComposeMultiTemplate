@@ -22,8 +22,8 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             extensions.configure<ApplicationExtension> {
                 configureKotlinAndroid(this)
 
-                defaultConfig.applicationId = properties.getProperty("applicationId")
-                defaultConfig.targetSdk = properties.getProperty("targetSdk").toInt()
+                defaultConfig.applicationId = "com.example.androidtemplate"
+                defaultConfig.targetSdk = 34
                 defaultConfig.versionCode = properties.getProperty("versionCode").toInt()
                 defaultConfig.versionName = properties.getProperty("versionName")
 

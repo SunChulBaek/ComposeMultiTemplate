@@ -13,9 +13,6 @@ import java.util.*
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            val propFile = file(rootProject.file("build.properties"))
-            val properties = Properties().apply { load(FileInputStream(propFile))}
-
             with(pluginManager) {
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.android")
@@ -23,7 +20,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
-                defaultConfig.targetSdk = properties.getProperty("targetSdk").toInt()
+                defaultConfig.targetSdk = 34
             }
             extensions.configure<LibraryAndroidComponentsExtension> {
                 configurePrintApksTask(this)
