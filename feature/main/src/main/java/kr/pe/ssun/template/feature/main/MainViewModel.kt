@@ -1,6 +1,5 @@
 package kr.pe.ssun.template.feature.main
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,14 +7,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kr.pe.ssun.template.core.domain.GetPhotosUseCase
-import kr.pe.ssun.template.core.model.Photo
+import kr.pe.ssun.template.core.ui.MainUiState
 import javax.inject.Inject
-
-sealed interface MainUiState {
-    data class Success(val photos: List<Photo>): MainUiState
-    object Loading: MainUiState
-    object Error: MainUiState
-}
 
 @HiltViewModel
 class MainViewModel @Inject constructor(

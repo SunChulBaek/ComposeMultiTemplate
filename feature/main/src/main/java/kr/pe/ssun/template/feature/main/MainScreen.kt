@@ -15,9 +15,9 @@ import kr.pe.ssun.template.core.event.NavItemReselectEvent
 import kr.pe.ssun.template.core.model.Photo
 import kr.pe.ssun.template.core.ui.ErrorScreen
 import kr.pe.ssun.template.core.ui.LoadingScreen
+import kr.pe.ssun.template.core.ui.MainUiState
 import kr.pe.ssun.template.core.ui.photoItems
 import kr.pe.ssun.template.core.util.EventBus
-import kr.pe.ssun.template.feature.main.MainUiState.*
 
 @Composable
 fun MainRoute(
@@ -61,9 +61,9 @@ fun MainScreen(
         .fillMaxSize()
         .padding(horizontal = 16.dp)) {
         when (mainState) {
-            Loading -> LoadingScreen()
-            Error -> ErrorScreen()
-            is Success -> {
+            MainUiState.Loading -> LoadingScreen()
+            MainUiState.Error -> ErrorScreen()
+            is MainUiState.Success -> {
                 LazyColumn(
                     state = listState,
                 ) {
@@ -82,7 +82,7 @@ private fun LazyListScope.MainBody(
     onClickItem: (Photo) -> Unit
 ) {
     photoItems(
-        items = (mainState as Success).photos,
+        items = (mainState as MainUiState.Success).photos,
         onClickItem = onClickItem,
         itemModifier = Modifier.padding(top = 10.dp)
     )
