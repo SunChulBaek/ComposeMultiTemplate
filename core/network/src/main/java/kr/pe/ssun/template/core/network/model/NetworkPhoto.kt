@@ -16,4 +16,5 @@ fun NetworkPhoto.asExternalModel() = Photo(
     title = this.title,
     url = this.url,
     thumbnailUrl = this.thumbnailUrl,
+    bookmarked = false
 )

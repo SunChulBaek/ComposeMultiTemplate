@@ -19,6 +19,7 @@ rootProject.name = "ComposeMultiTemplate"
 include(":app")
 include(":core:common")
 include(":core:data")
+include(":core:datastore")
 include(":core:designsystem")
 include(":core:domain")
 include(":core:model")

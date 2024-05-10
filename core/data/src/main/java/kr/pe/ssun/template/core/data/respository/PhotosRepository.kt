@@ -6,4 +6,6 @@ import kr.pe.ssun.template.core.model.Photo
 interface PhotosRepository {
 
     fun getPhotos(): Flow<List<Photo>>
+
+    fun togleBookmark(id: Int): Flow<Boolean>
 }

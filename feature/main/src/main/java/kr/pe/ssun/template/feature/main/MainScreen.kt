@@ -36,6 +36,7 @@ fun MainRoute(
         reselectEvent = reselectEvent,
         mainState = mainState,
         onClickItem = { item -> navigate("photo_detail", Pair(item.title, item.url)) },
+        toggle = viewModel::toggle,
         modifier = modifier
     )
 }
@@ -46,6 +47,7 @@ fun MainScreen(
     reselectEvent: NavItemReselectEvent,
     mainState: MainUiState,
     onClickItem: (Photo) -> Unit,
+    toggle: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
@@ -70,6 +72,7 @@ fun MainScreen(
                     MainBody(
                         mainState = mainState,
                         onClickItem = onClickItem,
+                        toggle = toggle,
                     )
                 }
             }
@@ -79,11 +82,13 @@ fun MainScreen(
 
 private fun LazyListScope.MainBody(
     mainState: MainUiState,
-    onClickItem: (Photo) -> Unit
+    onClickItem: (Photo) -> Unit,
+    toggle: (Int) -> Unit,
 ) {
     photoItems(
         items = (mainState as MainUiState.Success).photos,
         onClickItem = onClickItem,
+        toggle = toggle,
         itemModifier = Modifier.padding(top = 10.dp)
     )
 }

@@ -8,6 +8,7 @@ import kr.pe.ssun.template.core.model.Photo
 fun LazyListScope.photoItems(
     items: List<Photo>,
     onClickItem: (item: Photo) -> Unit,
+    toggle: (Int) -> Unit,
     itemModifier: Modifier,
 ) = items(
     items = items,
@@ -15,6 +16,7 @@ fun LazyListScope.photoItems(
         PhotoItem(
             modifier = itemModifier,
             item = item,
+            toggle = toggle
         ) {
             onClickItem(item)
         }
